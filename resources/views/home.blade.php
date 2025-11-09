@@ -35,7 +35,7 @@
 
                 @auth
                     @if(Auth::user()->role === 'admin')
-                        <a href="{{ route('AlleStaedte') }}" class="btn btn-sm btn-danger ms-2">
+                        <a href="{{ route('all-cities') }}" class="btn btn-sm btn-danger ms-2">
                         Admin
                         </a>
                     @endif

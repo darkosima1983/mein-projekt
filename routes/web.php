@@ -29,14 +29,14 @@ Route::middleware(['auth', AdminCheckMiddleware::class])
     ->prefix('admin')
     ->group(function () {
 
-Route::get('/all-cities', [WeatherController::class,'getAllWeathers'])->name('AlleStaedte');
+Route::get('/all-cities', [WeatherController::class,'getAllWeathers'])->name('all-cities');
 
-Route::get('/add-city', [WeatherController::class, 'index'])->name('StaedteHinzufügen');
-Route::post('/add-city', [WeatherController::class, 'store'])->name('admin.add-city.store');
+Route::get('/add-city', [WeatherController::class, 'index'])->name('add-city');
+Route::post('/add-city', [WeatherController::class, 'store'])->name('add-city.store');
 
 
-Route::get('/edit-city/{weather}', [WeatherController::class, 'edit'])->name('admin.edit-city');
-Route::post('/update-city/{weather}', [WeatherController::class, 'update'])->name('admin.update-city');
-Route::delete('/delete-city/{weather}', [WeatherController::class, 'destroy'])->name('admin.delete-city');
+Route::get('/edit-city/{weather}', [WeatherController::class, 'edit'])->name('edit-city');
+Route::post('/update-city/{weather}', [WeatherController::class, 'update'])->name('update-city');
+Route::delete('/delete-city/{weather}', [WeatherController::class, 'destroy'])->name('delete-city');
 });
 require __DIR__.'/auth.php';

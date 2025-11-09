@@ -14,7 +14,7 @@
 <body class="{{ $theme === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark' }}">
 <nav class="navbar navbar-expand-lg {{ $theme === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-white shadow-sm' }}">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ route('AlleStaedte') }}">WetterApp</a>
+        <a class="navbar-brand fw-bold" href="{{ route('all-cities') }}">WetterApp</a>
         <div>
             <a href="{{ route('theme.switch', 'dark') }}" class="btn btn-outline-light btn-sm me-2">🌙</a>
             <a href="{{ route('theme.switch', 'light') }}" class="btn btn-outline-secondary btn-sm">☀️</a>
@@ -25,7 +25,7 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Alle Städte</h2>
-        <a href="{{ route('StaedteHinzufügen') }}" class="btn btn-success">Neue Stadt hinzufügen</a>
+        <a href="{{ route('add-city') }}" class="btn btn-success">Neue Stadt hinzufügen</a>
     </div>
 
     @if(session('success'))
@@ -55,10 +55,10 @@
                                 <td>{{ $weather->description }}</td>
                                 <td>{{ $weather->created_at ? $weather->created_at->format('d.m.Y H:i') : '-' }}</td>
                                 <td>
-                                    <a href="{{ route('admin.edit-city', $weather->id) }}" class="btn btn-sm btn-primary">Bearbeiten</a>
+                                    <a href="{{ route('edit-city', $weather->id) }}" class="btn btn-sm btn-primary">Bearbeiten</a>
 
                                     <!-- Delete form -->
-                                    <form action="{{ route('admin.delete-city', $weather->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Möchten Sie diese Stadt wirklich löschen?');">
+                                    <form action="{{ route('delete-city', $weather->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Möchten Sie diese Stadt wirklich löschen?');">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger">Löschen</button>

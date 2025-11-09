@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Stadt hinzufügen — WetterApp</title>
+    <title>Stadt bearbeiten — WetterApp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -12,6 +12,7 @@
 @endphp
 
 <body class="{{ $theme === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark' }}">
+
 <nav class="navbar navbar-expand-lg {{ $theme === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-white shadow-sm' }}">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('all-cities') }}">WetterApp</a>
@@ -27,16 +28,16 @@
         <div class="col-md-7">
             <div class="card {{ $theme === 'dark' ? 'bg-secondary text-white' : '' }}">
                 <div class="card-body">
-                    <h3 class="card-title mb-3">Stadt hinzufügen</h3>
+                    <h3 class="card-title mb-3">Stadt bearbeiten</h3>
 
-                    {{-- Success message --}}
+                    {{-- Poruka o uspehu --}}
                     @if(session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
                         </div>
                     @endif
 
-                    {{-- Validation errors --}}
+                    {{-- Greške --}}
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -47,28 +48,28 @@
                         </div>
                     @endif
 
-                    {{-- Form --}}
-                    <form action="{{ route('add-city') }}" method="POST">
+                    {{-- Forma --}}
+                    <form action="{{ route('update-city', $singleWeather->id) }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
                             <label for="city" class="form-label">Stadt</label>
-                            <input type="text" id="city" name="city" value="{{ old('city') }}" class="form-control" required>
+                            <input type="text" id="city" name="city" value="{{ old('city', $singleWeather->city) }}" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="temperature" class="form-label">Temperatur (z. B. 12°C)</label>
-                            <input type="text" id="temperature" name="temperature" value="{{ old('temperature') }}" class="form-control" required>
+                            <label for="temperature" class="form-label">Temperatur (°C)</label>
+                            <input type="text" id="temperature" name="temperature" value="{{ old('temperature', $singleWeather->temperature) }}" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Wetterbeschreibung</label>
-                            <input type="text" id="description" name="description" value="{{ old('description') }}" class="form-control">
+                            <input type="text" id="description" name="description" value="{{ old('description', $singleWeather->description) }}" class="form-control">
                         </div>
 
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mt-4">
                             <a href="{{ route('all-cities') }}" class="btn btn-outline-secondary">Zurück</a>
-                            <button type="submit" class="btn btn-primary">Stadt speichern</button>
+                            <button type="submit" class="btn btn-primary">Speichern</button>
                         </div>
                     </form>
 
