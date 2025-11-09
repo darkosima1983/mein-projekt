@@ -32,6 +32,15 @@
                 {{-- Dark/Light Switch --}}
                 <a href="{{ route('theme.switch', 'dark') }}" class="btn btn-outline-light btn-sm me-2">🌙 Dunkel</a>
                 <a href="{{ route('theme.switch', 'light') }}" class="btn btn-outline-secondary btn-sm">☀️ Hell</a>
+
+                @auth
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('AlleStaedte') }}" class="btn btn-sm btn-danger ms-2">
+                        Admin
+                        </a>
+                    @endif
+                @endauth
+
             </div>
         </div>
     </nav>
@@ -40,17 +49,18 @@
         <h1 class="mb-4">Aktuelle Wettervorhersage</h1>
         <p class="text-muted">Hier siehst du die aktuellen Temperaturen in fünf bayerischen Städten.</p>
 
-        @foreach ($weathers as $weather)
-        <div class="col-md-3 m-3">
-            <div class="card shadow-sm {{ $theme === 'dark' ? 'bg-secondary text-white' : '' }}">
-                <div class="card-body">
-                    <h4 class="card-title">{{ $weather->city }}</h4>
-                    <p class="card-text fs-3">{{ $weather->temperature }}°C</p>
-                    <p class="card-text">{{ $weather->description }}</p>
+        
+            <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                @foreach ($weathers as $weather)
+                <div class="card" style="width: 200px;">
+                    <h5>{{ $weather->city }}</h5>
+                    <p>{{ $weather->temperature }}°C</p>
+                    <p>{{ $weather->description }}</p>
                 </div>
+                @endforeach
             </div>
-        </div>
-        @endforeach
+        
+        
 
 
         @guest
@@ -62,7 +72,7 @@
             </div>
         @else
             <div class="mt-5">
-                <a href="/home" class="btn btn-success">Zum Dashboard</a>
+                <a href="/dashboard" class="btn btn-success">Zum Dashboard</a>
             </div>
         @endguest
     </div>

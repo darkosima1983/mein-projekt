@@ -4,6 +4,7 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AdminCheckMiddleware;
 
 
 
@@ -24,13 +25,18 @@ Route::get('/theme/{mode}', function ($mode) {
 })->name('theme.switch');
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 
-Route::get('admin/all-cities', [WeatherController::class,'getAllWeathers'])->name('AlleStaedte');
+Route::middleware(['auth', AdminCheckMiddleware::class])
+    ->prefix('admin')
+    ->group(function () {
 
-Route::get('admin/add-city', [WeatherController::class, 'index'])->name('StaedteHinzufügen');
-Route::post('admin/add-city', [WeatherController::class, 'store'])->name('admin.add-city.store');
+Route::get('/all-cities', [WeatherController::class,'getAllWeathers'])->name('AlleStaedte');
+
+Route::get('/add-city', [WeatherController::class, 'index'])->name('StaedteHinzufügen');
+Route::post('/add-city', [WeatherController::class, 'store'])->name('admin.add-city.store');
 
 
-Route::get('/admin/edit-city/{weather}', [WeatherController::class, 'edit'])->name('admin.edit-city');
-Route::post('/admin/update-city/{weather}', [WeatherController::class, 'update'])->name('admin.update-city');
-Route::delete('/admin/delete-city/{weather}', [WeatherController::class, 'destroy'])->name('admin.delete-city');
+Route::get('/edit-city/{weather}', [WeatherController::class, 'edit'])->name('admin.edit-city');
+Route::post('/update-city/{weather}', [WeatherController::class, 'update'])->name('admin.update-city');
+Route::delete('/delete-city/{weather}', [WeatherController::class, 'destroy'])->name('admin.delete-city');
+});
 require __DIR__.'/auth.php';

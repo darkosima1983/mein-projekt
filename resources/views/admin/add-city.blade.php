@@ -14,7 +14,7 @@
 <body class="{{ $theme === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark' }}">
 <nav class="navbar navbar-expand-lg {{ $theme === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-white shadow-sm' }}">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ route('home') }}">WetterApp</a>
+        <a class="navbar-brand fw-bold" href="{{ route('AlleStaedte') }}">WetterApp</a>
         <div>
             <a href="{{ route('theme.switch', 'dark') }}" class="btn btn-outline-light btn-sm me-2">🌙</a>
             <a href="{{ route('theme.switch', 'light') }}" class="btn btn-outline-secondary btn-sm">☀️</a>

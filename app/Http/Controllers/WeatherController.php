@@ -32,7 +32,7 @@ class WeatherController extends Controller
 
        ]);
 
-       return redirect ()->route("welcome"); 
+       return redirect ()->route("AlleStaedte"); 
 
     }
 }

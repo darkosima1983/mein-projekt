@@ -1,41 +1,69 @@
-<x-guest-layout>
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anmeldung - MeinProjekt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+    <div class="card shadow-lg" style="width: 400px;">
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4">Anmeldung</h3>
 
-        <!-- Email -->
-        <div class="mb-3">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mb-3">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="remember" id="remember_me">
-            <label class="form-check-label" for="remember_me">
-                {{ __('Remember me') }}
-            </label>
-        </div>
-
-        <div class="d-flex justify-content-between align-items-center">
-            @if (Route::has('password.request'))
-                <a class="text-decoration-underline" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+            <!-- Status Message -->
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
             @endif
 
-            <x-primary-button>
-                {{ __('Log in') }}
-            </x-primary-button>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-Mail-Adresse</label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" class="form-control">
+                    @error('email')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Passwort</label>
+                    <input id="password" type="password" name="password" required autocomplete="current-password" class="form-control">
+                    @error('password')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Remember Me -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember_me">
+                    <label class="form-check-label" for="remember_me">Angemeldet bleiben</label>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    @if (Route::has('password.request'))
+                        <a class="small text-decoration-none" href="{{ route('password.request') }}">
+                            Passwort vergessen?
+                        </a>
+                    @endif
+
+                    <button type="submit" class="btn btn-primary px-4">Anmelden</button>
+                </div>
+            </form>
+
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">Noch kein Konto? <a href="{{ route('register') }}">Registrieren</a></p>
+            </div>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
