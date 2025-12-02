@@ -14,6 +14,7 @@ class Weather extends Model
         'city',
         'temperature',
         'description',
-        'role',
+        
     ];
+    
 }
