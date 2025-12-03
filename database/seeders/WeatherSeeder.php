@@ -20,7 +20,13 @@ class WeatherSeeder extends Seeder
        if($city === null)
        {
         $this->command->getOutput()->error("Fehler: Kein Stadtname eingegeben.");
+        return;
        }
+       if (Weather::where('city', $city)->exists()) {
+            
+            $this->command->getOutput()->error("Die Stadt $city existiert bereits!");
+            return;
+        }
        $temperature = $this->command->getOutput()->ask("Wie viel Grad?");
        if($temperature === null)
        {

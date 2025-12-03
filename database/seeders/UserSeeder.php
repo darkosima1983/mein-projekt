@@ -14,8 +14,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $amount= $this->command->getOutput()->ask("Koliko korisnika zelite?", 500);
-        $password = $this->command->getOutput()->ask("Koju lozinku da koristim?", '123456');
+        $amount= $this->command->getOutput()->ask("Wie viele Benutzer möchten Sie?", 500);
+        $password = $this->command->getOutput()->ask("Welches Passwort soll ich verwenden?", '123456');
         $faker = Faker::create('de_DE');
 
         $this->command->getOutput()->progressStart($amount);
