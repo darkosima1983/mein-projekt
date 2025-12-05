@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminCheckMiddleware;
-
+use App\Http\Controllers\ForecastController;
 
 
 Route::get('/dashboard', function () {
@@ -25,6 +25,8 @@ Route::get('/theme/{mode}', function ($mode) {
 })->name('theme.switch');
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 
+Route::get("/forecast/{city}", [ForecastController::class, 'index']);
+
 Route::middleware(['auth', AdminCheckMiddleware::class])
     ->prefix('admin')
     ->group(function () {
@@ -39,4 +41,5 @@ Route::get('/edit-city/{weather}', [WeatherController::class, 'edit'])->name('ed
 Route::post('/update-city/{weather}', [WeatherController::class, 'update'])->name('update-city');
 Route::delete('/delete-city/{weather}', [WeatherController::class, 'destroy'])->name('delete-city');
 });
+
 require __DIR__.'/auth.php';
