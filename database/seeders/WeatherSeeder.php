@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Weather;
+use App\Models\CitiesModel;
 use Faker\Factory as Faker;
 
 class WeatherSeeder extends Seeder
@@ -13,39 +14,35 @@ class WeatherSeeder extends Seeder
      */
     public function run(): void
     {
+        $descriptions = [
+            "Sunny",
+            "Cloudy",
+            "Rainy",
+            "Windy",
+            "Stormy",
+            "Snowy",
+            "Foggy",
+            "Partly cloudy",
+            "Thunderstorms",
+            "Clear sky"
+        ];
+        $cities = CitiesModel::all();
+        foreach($cities as $city){
 
-   
+            $userWeather = Weather:: where (['city_id'=>$city->id])->first();
+            if($userWeather !== null){
+                $this->command->getOutput()->error("Die Stadt nicht exsistiert");
+                continue;
+            }
+              Weather::create([
+                'city_id' => $city->id,
+                'temperature' => rand(15,30),
+                'description' => $descriptions[array_rand($descriptions)]
+                ]);
 
-       $city = $this->command->getOutput()->ask("Name der Stadt");
-       if($city === null)
-       {
-        $this->command->getOutput()->error("Fehler: Kein Stadtname eingegeben.");
-        return;
-       }
-       if (Weather::where('city', $city)->exists()) {
-            
-            $this->command->getOutput()->error("Die Stadt $city existiert bereits!");
-            return;
         }
-       $temperature = $this->command->getOutput()->ask("Wie viel Grad?");
-       if($temperature === null)
-       {
-        $this->command->getOutput()->error("Fehler: Keine Temperatur eingegeben.");
-       }
-       $description = $this->command->getOutput()->ask("Beschreibung");
-       if($description === null)
-       {
-        $this->command->getOutput()->error("Fehler: Keine Beschreibung eingegeben.");
-       }
-            Weather::create([
-            'city' => $city,
-            'temperature' => $temperature,
-            'description' => $description,
-            ]);
-        $this->command->getOutput()->info(
-    "Erfolgreich eingetragen: Stadt *{$city}*, Temperatur *{$temperature}°C*, Beschreibung *{$description}*."
-);
-    
+
+          
 
     }       
 }
