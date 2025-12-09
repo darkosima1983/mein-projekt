@@ -12,7 +12,7 @@ class CitiesSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Factory::create();
+         $faker = Factory::create();
 
         for ($i=0; $i<100; $i++){
             CitiesModel::create([

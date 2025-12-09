@@ -53,7 +53,7 @@
             <div class="card-body" style="display: flex; flex-wrap: wrap; gap: 20px;">
                 @foreach ($weathers as $weather)
                 <div class="card" style="width: 200px;">
-                    <h5>{{ $weather->city }}</h5>
+                    <h5>{{ $weather->city->name }}</h5>
                     <p>{{ $weather->temperature }}°C</p>
                     <p>{{ $weather->description }}</p>
                 </div>

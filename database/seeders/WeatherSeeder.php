@@ -15,17 +15,18 @@ class WeatherSeeder extends Seeder
     public function run(): void
     {
         $descriptions = [
-            "Sunny",
-            "Cloudy",
-            "Rainy",
-            "Windy",
-            "Stormy",
-            "Snowy",
-            "Foggy",
-            "Partly cloudy",
-            "Thunderstorms",
-            "Clear sky"
+            "Sonnig",
+            "Bewölkt",
+            "Regnerisch",
+            "Windig",
+            "Stürmisch",
+            "Verschneit",
+            "Nebelig",
+            "Teilweise bewölkt",
+            "Gewitter",
+            "Klarer Himmel"
         ];
+
         $cities = CitiesModel::all();
         foreach($cities as $city){
 
