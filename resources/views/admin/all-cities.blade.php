@@ -50,7 +50,7 @@
                         @forelse ($weathers as $weather)
                             <tr>
                                 <td>{{ $weather->id }}</td>
-                                <td>{{ $weather->city }}</td>
+                                <td>{{ $weather->city->name }}</td>
                                 <td>{{ $weather->temperature }}</td>
                                 <td>{{ $weather->description }}</td>
                                 <td>{{ $weather->created_at ? $weather->created_at->format('d.m.Y H:i') : '-' }}</td>

@@ -18,7 +18,7 @@ class Weather extends Model
     ];
     public function city()
     {
-        return $this->hasOne(CitiesModel::class, 'id', 'city_id');
+        return $this->belongsTo(CitiesModel::class, 'city_id', 'id');
     }
     
 }

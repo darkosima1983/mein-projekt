@@ -20,13 +20,13 @@ class WeatherController extends Controller
      public function store(Request $request){
         $request->validate([
             
-        'city'=> "required|string|min:3|unique:weathers,city",
+        'city_id' => "required|exists:cities,id",
         'temperature'=> "required|string|min:1",
         'description'=> "nullable|string",
          ]);
      
        Weather::create([
-           "city"=> $request->get("city"),
+           "city_id"=> $request->get("city_id"),
            "temperature"=> $request->get("temperature"),
            "description"=> $request->get("description"),
 
@@ -52,13 +52,13 @@ class WeatherController extends Controller
 
         }
         $request->validate([
-            'city'=> "required|string|min:3|unique:weathers,city," . $weather,
+            'city_id'=> "required|exists:cities,id",
             'temperature'=> "required|string|min:1",
             'description'=> "nullable|string",
          ]);
         
          $singleWeather ->update([
-            "city"=> $request->get("city"),
+           "city_id"=> $request->city_id,
            "temperature"=> $request->get("temperature"),
            "description"=> $request->get("description"),
         ]);
