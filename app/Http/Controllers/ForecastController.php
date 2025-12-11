@@ -3,20 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\CitiesModel;
+use App\Models\ForecastsModel ;
 class ForecastController extends Controller
 {
-    public function index($city)
+    public function index(CitiesModel $city)
     {
         
-        $forecast = [
-            "bamberg"=>[5, 8, 12, 11, 7],
-            "coburg"=>[4, 7, 6, 11, 10],
-        ];
-        $city = strtolower($city);
-        if(!array_key_exists($city, $forecast))
-        {
-            die("Die Stadt nicht Exsistiert");
-        }
+       $weathers = ForecastsModel::where(['city_id'=> $city->id])->get();
+        return view('forecasts', compact('weathers'));
     }
 }
