@@ -8,7 +8,13 @@ class ForecastsModel extends Model
 {
     protected $table = "forecasts";
 
-    protected $fillable = ["city_id", "temperature", "forecast_date"];
+    protected $fillable = [
+    "city_id",
+    "temperature",
+    "forecast_date",
+    "weather_type",
+    "probability"
+];
 
     public function city()
     {
