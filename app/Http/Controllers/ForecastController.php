@@ -29,13 +29,7 @@ class ForecastController extends Controller
             'probability'   => 'nullable|integer|min:0|max:100',
         ]);
 
-        ForecastsModel::create([
-            'city_id' => $request->city_id,
-            'forecast_date' => $request->forecast_date,
-            'temperature' => $request->temperature,
-            'weather_type' => $request->weather_type,
-            'probability'   => $request->probability,
-        ]);
+        ForecastsModel::create($request->all());
 
         return redirect()->back()->with('success', 'Forecast erfolgreich hinzugefügt.');
     }

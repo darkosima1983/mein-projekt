@@ -62,7 +62,8 @@
     <div class="forecast-container d-flex gap-2 mb-4">
         @forelse ($city->forecasts as $forecast)
             <div class="card p-2" style="width: 300px;">
-                <p>{{ $forecast->forecast_date }} - {{ $forecast->temperature }}°C - {{$forecast->weather_type}} - {{$forecast->probability}}% Regen</p>
+                @php $color = App\Http\ForecastHelper::getColorByTemperature($forecast->temperature) @endphp
+                <p>{{ $forecast->forecast_date }} - <span style="color: {{$color}};">{{ $forecast->temperature }}°C </span>- {{$forecast->weather_type}} - {{$forecast->probability}}% Regen</p>
                 
             </div>
         @empty
