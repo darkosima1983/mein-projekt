@@ -38,6 +38,17 @@
                 @endforeach
             </select>
         </div>
+        <div class="col-md-3">
+            <label class="form-label">Niederschlagswahrscheinlichkeit (%)</label>
+            <input
+                type="number"
+                name="probability"
+                class="form-control"
+                min="0"
+                max="100"
+                placeholder="0–100">
+        </div>
+
 
         <div class="col-md-2">
             <button class="btn btn-success w-100">Hinzufügen</button>
@@ -51,7 +62,7 @@
     <div class="forecast-container d-flex gap-2 mb-4">
         @forelse ($city->forecasts as $forecast)
             <div class="card p-2" style="width: 300px;">
-                <p>{{ $forecast->forecast_date }} - {{ $forecast->temperature }}°C - {{$forecast->weather_type}}</p>
+                <p>{{ $forecast->forecast_date }} - {{ $forecast->temperature }}°C - {{$forecast->weather_type}} - {{$forecast->probability}}% Regen</p>
                 
             </div>
         @empty

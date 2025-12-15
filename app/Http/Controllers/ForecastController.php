@@ -26,6 +26,7 @@ class ForecastController extends Controller
             'forecast_date' => 'required|date',
             'temperature' => 'required|numeric',
             'weather_type' => 'required|in:' . implode(',', ForecastsModel::WEATHERS),
+            'probability'   => 'nullable|integer|min:0|max:100',
         ]);
 
         ForecastsModel::create([
@@ -33,6 +34,7 @@ class ForecastController extends Controller
             'forecast_date' => $request->forecast_date,
             'temperature' => $request->temperature,
             'weather_type' => $request->weather_type,
+            'probability'   => $request->probability,
         ]);
 
         return redirect()->back()->with('success', 'Forecast erfolgreich hinzugefügt.');
