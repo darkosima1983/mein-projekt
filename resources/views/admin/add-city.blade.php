@@ -3,81 +3,55 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Stadt hinzufügen — WetterApp</title>
+    <title>Neue Wetterdaten hinzufügen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-@php
-    $theme = session('theme', 'light');
-@endphp
-
-<body class="{{ $theme === 'dark' ? 'bg-dark text-white' : 'bg-light text-dark' }}">
-<nav class="navbar navbar-expand-lg {{ $theme === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-white shadow-sm' }}">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ route('all-cities') }}">WetterApp</a>
-        <div>
-            <a href="{{ route('theme.switch', 'dark') }}" class="btn btn-outline-light btn-sm me-2">🌙</a>
-            <a href="{{ route('theme.switch', 'light') }}" class="btn btn-outline-secondary btn-sm">☀️</a>
-        </div>
-    </div>
-</nav>
+<body class="bg-light">
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-7">
-            <div class="card {{ $theme === 'dark' ? 'bg-secondary text-white' : '' }}">
-                <div class="card-body">
-                    <h3 class="card-title mb-3">Stadt hinzufügen</h3>
+    <h2 class="mb-4">Neue Wetterdaten hinzufügen</h2>
 
-                    {{-- Success message --}}
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    {{-- Validation errors --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $err)
-                                    <li>{{ $err }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    {{-- Form --}}
-                    <form action="{{ route('add-city') }}" method="POST">
-                        @csrf
-
-                        <div class="mb-3">
-                            <label for="city" class="form-label">Stadt</label>
-                            <input type="text" id="city" name="city" value="{{ old('city') }}" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="temperature" class="form-label">Temperatur (z. B. 12°C)</label>
-                            <input type="text" id="temperature" name="temperature" value="{{ old('temperature') }}" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Wetterbeschreibung</label>
-                            <input type="text" id="description" name="description" value="{{ old('description') }}" class="form-control">
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('all-cities') }}" class="btn btn-outline-secondary">Zurück</a>
-                            <button type="submit" class="btn btn-primary">Stadt speichern</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $e)
+                    <li>{{ $e }}</li>
+                @endforeach
+            </ul>
         </div>
-    </div>
+    @endif
+
+    <form action="{{ route('add-city') }}" method="POST">
+        @csrf
+
+        {{-- SELECT ZA GRADOVE --}}
+        <div class="mb-3">
+            <label class="form-label">Stadt auswählen</label>
+            <select name="city_id" class="form-select" required>
+                <option value="">-- Stadt wählen --</option>
+                @foreach ($cities as $city)
+                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Temperatura --}}
+        <div class="mb-3">
+            <label class="form-label">Temperatur (°C)</label>
+            <input type="text" name="temperature" class="form-control" required>
+        </div>
+
+        {{-- Opis vremena --}}
+        <div class="mb-3">
+            <label class="form-label">Beschreibung</label>
+            <input type="text" name="description" class="form-control">
+        </div>
+
+        <button class="btn btn-success">Speichern</button>
+        <a href="{{ route('all-cities') }}" class="btn btn-secondary ms-2">Zurück</a>
+    </form>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

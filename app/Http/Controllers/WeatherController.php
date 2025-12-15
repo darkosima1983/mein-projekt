@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Weather; 
-
+use App\Models\CitiesModel;
 class WeatherController extends Controller
 {
     public function getAllWeathers()
@@ -13,9 +13,11 @@ class WeatherController extends Controller
         return view('admin/all-cities', compact('weathers'));
     }
     public function index()
-    {
-        return view("admin/add-city");
-    }
+{
+    $cities = CitiesModel::all(); // ← dodano
+    return view("admin/add-city", compact('cities'));
+}
+
 
      public function store(Request $request){
         $request->validate([
@@ -42,7 +44,8 @@ class WeatherController extends Controller
             abort(404, "Diese Stadt existiert nicht.");
 
         }
-        return view('admin.edit-city', compact('singleWeather'));
+        $cities = CitiesModel::all();
+        return view('admin.edit-city', compact('singleWeather', 'cities'));
     }
     public function update(Request $request, $weather)
     {

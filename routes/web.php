@@ -40,6 +40,9 @@ Route::post('/add-city', [WeatherController::class, 'store'])->name('add-city.st
 Route::get('/edit-city/{weather}', [WeatherController::class, 'edit'])->name('edit-city');
 Route::post('/update-city/{weather}', [WeatherController::class, 'update'])->name('update-city');
 Route::delete('/delete-city/{weather}', [WeatherController::class, 'destroy'])->name('delete-city');
+
+Route::get('/forecast', [ForecastController::class, 'show'])->name('forecast');
+Route::post('/forecast/store', [ForecastController::class, 'store'])->name('forecast.store');
 });
 
 require __DIR__.'/auth.php';
