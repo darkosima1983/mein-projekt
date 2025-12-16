@@ -15,7 +15,7 @@ class ForecastsModel extends Model
     "weather_type",
     "probability"
 ];
-    const WEATHERS = ["sonnig","bewölkt","regnerisch"];
+    const WEATHERS = ["sonnig","bewölkt","regnerisch","schneit"];
     public function city()
     {
         return $this->belongsTo(CitiesModel::class, 'city_id', 'id');

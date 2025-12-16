@@ -66,7 +66,12 @@
                     {{ $forecast->forecast_date }} —
                     <strong>{{ $forecast->temperature }}°C</strong>
                 </p>
-                <small>{{ $forecast->weather_type }} · {{ $forecast->probability }}%</small>
+                <small>
+    <i class="{{ \App\Http\ForecastHelper::weatherIcon($forecast->weather_type) }}"></i>
+    {{ ucfirst($forecast->weather_type) }}
+    · {{ $forecast->probability }}%
+</small>
+
             </div>
         @empty
             <p class="text-muted">Keine Vorhersagen.</p>
