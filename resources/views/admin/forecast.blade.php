@@ -1,14 +1,23 @@
+@extends('layout')
+
+@section('title', 'Forecasts')
+
+@section('content')
 
 @if(session('success'))
     <div class="alert alert-success">
-        {{ session('success') }}
+        <i class="fa-solid fa-check"></i> {{ session('success') }}
     </div>
 @endif
+
+<h2 class="mb-4">
+    <i class="fa-solid fa-calendar-days"></i> Wetter Forecasts
+</h2>
 
 <form action="{{ route('forecast.store') }}" method="POST" class="mb-5">
     @csrf
 
-    <div class="row g-3 align-items-end">
+    <div class="row g-3">
         <div class="col-md-4">
             <label class="form-label">Stadt</label>
             <select name="city_id" class="form-select" required>
@@ -31,43 +40,38 @@
 
         <div class="col-md-3">
             <label class="form-label">Weather type</label>
-            <option value="">-- Weather type wählen --</option>
             <select name="weather_type" class="form-select" required>
-                 @foreach (\App\Models\ForecastsModel::WEATHERS as $type)
+                @foreach (\App\Models\ForecastsModel::WEATHERS as $type)
                     <option value="{{ $type }}">{{ ucfirst($type) }}</option>
                 @endforeach
             </select>
         </div>
-        <div class="col-md-3">
-            <label class="form-label">Niederschlagswahrscheinlichkeit (%)</label>
-            <input
-                type="number"
-                name="probability"
-                class="form-control"
-                min="0"
-                max="100"
-                placeholder="0–100">
-        </div>
-
 
         <div class="col-md-2">
-            <button class="btn btn-success w-100">Hinzufügen</button>
+            <button class="btn btn-success w-100">
+                <i class="fa-solid fa-plus"></i> Hinzufügen
+            </button>
         </div>
     </div>
 </form>
 
 @foreach ($cities as $city)
-    <h2> {{ $city->name }}</h2>
+    <h4 class="mt-4">{{ $city->name }}</h4>
 
-    <div class="forecast-container d-flex gap-2 mb-4">
+    <div class="d-flex gap-3 flex-wrap">
         @forelse ($city->forecasts as $forecast)
-            <div class="card p-2" style="width: 300px;">
-                @php $color = App\Http\ForecastHelper::getColorByTemperature($forecast->temperature) @endphp
-                <p>{{ $forecast->forecast_date }} - <span style="color: {{$color}};">{{ $forecast->temperature }}°C </span>- {{$forecast->weather_type}} - {{$forecast->probability}}% Regen</p>
-                
+            <div class="card p-3" style="width:300px;">
+                <p>
+                    <i class="fa-solid fa-temperature-half"></i>
+                    {{ $forecast->forecast_date }} —
+                    <strong>{{ $forecast->temperature }}°C</strong>
+                </p>
+                <small>{{ $forecast->weather_type }} · {{ $forecast->probability }}%</small>
             </div>
         @empty
-            <p>Keine Vorhersagen für diese Stadt.</p>
+            <p class="text-muted">Keine Vorhersagen.</p>
         @endforelse
     </div>
 @endforeach
+
+@endsection
