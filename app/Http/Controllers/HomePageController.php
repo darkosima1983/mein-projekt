@@ -3,19 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Weather;
-
+use App\Models\CitiesModel;
+use Carbon\Carbon;
 class HomePageController extends Controller
 {
-    public function index()
+    
+   public function index()
+{
+    
+    $now = Carbon::now(); 
+
+    return view('home', compact('now'));
+}
+
+    
+    public function search(Request $request)
     {
-        date_default_timezone_set("Europe/Berlin");
+        $cityName = $request->get('city');
+        $cities = CitiesModel::where('name', 'LIKE', "%$cityName%")->get();
 
-        $trenutnoVreme = date("H:i:s");
-        $trenutniSat = date("H");
-
-        $weathers = Weather::orderBy('created_at', 'desc')->take(5)->get();
-
-        return view("home", compact("trenutnoVreme", "trenutniSat", "weathers"));
+        if (count($cities) === 0) {
+            return redirect()->back()->with('error', 'Keine Städte gefunden.');
+        }
+        return view('search_results', compact('cities', 'cityName'));
     }
 }
