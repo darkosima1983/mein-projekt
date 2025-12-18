@@ -12,14 +12,29 @@
 
 
 {{-- Suchergebnisse --}}
-<div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
-    @foreach ($cities as $city)
-        <div class="card p-3 text-center" style="width: 200px;">
-            <h5>{{ $city->name }}</h5>
-        </div>
-    @endforeach
-</div>
+@foreach ($cities as $city)
+    <h4 class="mt-4">{{ $city->name }}</h4>
 
+    @if ($city->todaysForecast)
+        <div class="card p-3" style="width:300px;">
+            <p>
+                <i class="fa-solid fa-temperature-half"></i>
+                Heute —
+                <strong>{{ $city->todaysForecast->temperature }}°C</strong>
+            </p>
+
+            <small>
+                <i class="{{ \App\Http\ForecastHelper::weatherIcon($city->todaysForecast->weather_type) }}"></i>
+                {{ ucfirst($city->todaysForecast->weather_type) }}
+                @if($city->todaysForecast->probability !== null)
+                    · {{ $city->todaysForecast->probability }}%
+                @endif
+            </small>
+        </div>
+    @else
+        <p class="text-muted">Keine Wetterdaten für heute.</p>
+    @endif
+@endforeach
 
 @endsection
 
