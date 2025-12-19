@@ -23,7 +23,6 @@
                     <th>#</th>
                     <th>Stadt</th>
                     <th>Temperatur</th>
-                    <th>Beschreibung</th>
                     <th>Aktionen</th>
                 </tr>
             </thead>
@@ -33,7 +32,7 @@
                         <td>{{ $weather->id }}</td>
                         <td>{{ $weather->city->name }}</td>
                         <td>{{ $weather->temperature }}°C</td>
-                        <td>{{ $weather->description }}</td>
+                    
                         <td>
                             <a href="{{ route('edit-city', $weather->id) }}" class="btn btn-sm btn-primary">
                                 <i class="fa-solid fa-pen"></i>

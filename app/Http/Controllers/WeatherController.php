@@ -9,14 +9,15 @@ class WeatherController extends Controller
 {
     public function getAllWeathers()
     {
-        $weathers = Weather::all(); 
+        $weathers = Weather::with('city')->get();
         return view('admin/all-cities', compact('weathers'));
     }
+
     public function index()
-{
-    $cities = CitiesModel::all(); // ← dodano
-    return view("admin/add-city", compact('cities'));
-}
+    {
+        $cities = CitiesModel::all();
+        return view("admin/add-city", compact('cities'));
+    }
 
 
      public function store(Request $request){
@@ -39,7 +40,7 @@ class WeatherController extends Controller
     }
     public function edit($weather)
     {
-        $singleWeather = Weather::find($weather);
+        $singleWeather = Weather::with('city')->find($weather);
         if (!$singleWeather){
             abort(404, "Diese Stadt existiert nicht.");
 
@@ -49,7 +50,7 @@ class WeatherController extends Controller
     }
     public function update(Request $request, $weather)
     {
-        $singleWeather = Weather::find($weather);
+        $singleWeather = Weather::with('city')->find($weather);
         if (!$singleWeather){
             abort(404, "Diese Stadt existiert nicht.");
 
@@ -70,7 +71,7 @@ class WeatherController extends Controller
     }
     public function destroy($weather)
     {
-        $singleWeather = Weather::find($weather);
+        $singleWeather = Weather::with('city')->find($weather);
         if (!$singleWeather){
             abort(404, "Diese Stadt existiert nicht.");
 
