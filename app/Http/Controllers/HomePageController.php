@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CitiesModel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 class HomePageController extends Controller
 {
     
@@ -25,6 +26,13 @@ class HomePageController extends Controller
         if (count($cities) === 0) {
             return redirect()->back()->with('error', 'Keine Städte gefunden.');
         }
-        return view('search_results', compact('cities', 'cityName'));
+        $userFavorites = [];
+        if(Auth::check())
+        {
+        $userFavorites = Auth::user()->cityFavorites;
+        $userFavorites = $userFavorites->pluck('city_id')->toArray();
+        }
+
+        return view('search_results', compact('cities', 'cityName', 'userFavorites'));
     }
 }

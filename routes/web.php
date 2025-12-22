@@ -6,6 +6,7 @@ use App\Http\Controllers\WeatherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminCheckMiddleware;
 use App\Http\Controllers\ForecastController;
+use App\Http\Controllers\UserCitiesController;
 
 
 Route::get('/dashboard', function () {
@@ -28,6 +29,9 @@ Route::get('/search', [HomePageController::class, 'search'])->name('search');
 
 Route::get("/forecast/{city:name}", [ForecastController::class, 'index']);
 
+/**User City Routes */
+Route::get('/user-cities/favorite/{city}', [UserCitiesController::class, 'favorite'])->name('user-cities.favorite');
+
 Route::middleware(['auth', AdminCheckMiddleware::class])
     ->prefix('admin')
     ->group(function () {
@@ -44,6 +48,8 @@ Route::delete('/delete-city/{weather}', [WeatherController::class, 'destroy'])->
 
 Route::get('/forecast', [ForecastController::class, 'show'])->name('forecast');
 Route::post('/forecast/store', [ForecastController::class, 'store'])->name('forecast.store');
+
+
 });
 
 require __DIR__.'/auth.php';
