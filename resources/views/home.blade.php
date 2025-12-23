@@ -20,8 +20,53 @@
     <input type="text" name="city" class="form-control w-50 me-2" placeholder="Stadt eingeben...">
     <button type="submit" class="btn btn-primary">Suchen</button>
 </form>
+{{-- Favoriten  --}}
+   @if(session('error'))
+       <div class="alert alert-danger">
+        {{ session('error') }}
+        </div>
+    @endif
+{{-- FAVORITI --}}
+@if(Auth::check())
+    <h2 class="mt-5 text-center">
+        <i class="fa-solid fa-heart text-danger"></i> Deine Favoriten
+    </h2>
 
-<h2 class="mb-4 text-center">{{ $now->format('d.m.Y') }}</h2>
-<h3 class="mb-4 text-center">{{ $now->format('H:i:s') }}</h3>
+    <div class="row justify-content-center mt-4">
+        @forelse ($favoriteCities as $city)
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card p-3 shadow-sm h-100">
+
+                    <h5 class="text-center mb-2">{{ $city->name }}</h5>
+
+                    @if ($city->todaysForecast)
+                        <p class="mb-2 text-center">
+                            <i class="fa-solid fa-temperature-half"></i>
+                            Heute —
+                            <strong>{{ $city->todaysForecast->temperature }}°C</strong>
+                        </p>
+
+                        <small class="text-center d-block">
+                            <i class="{{ \App\Http\ForecastHelper::weatherIcon($city->todaysForecast->weather_type) }}"></i>
+                            {{ ucfirst($city->todaysForecast->weather_type) }}
+                        </small>
+                    @else
+                        <p class="text-muted text-center mb-0">
+                            Keine Wetterdaten
+                        </p>
+                    @endif
+
+                </div>
+            </div>
+        @empty
+            <div class="col-12">
+                <p class="text-muted text-center">
+                    Noch keine Favoriten gespeichert.
+                </p>
+            </div>
+        @endforelse
+    </div>
+@endif
+
 
 @endsection

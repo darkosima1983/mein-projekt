@@ -14,10 +14,19 @@ class UserCitiesController extends Controller
         {
             return redirect()->back()->with('error', 'Bitte melden Sie sich an, um Städte zu Ihren Favoriten hinzuzufügen.');
         }
-        UserCities::create([
+        $fav = UserCities::where('city_id', $city)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if ($fav) {
+            $fav->delete();
+            return redirect()->back()->with('success', 'Stadt aus Favoriten entfernt.');
+        }
+       UserCities::firstOrCreate([
             'city_id' => $city,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
+
         return redirect()->back();
     }
 }

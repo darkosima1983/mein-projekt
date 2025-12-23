@@ -9,13 +9,23 @@ use Illuminate\Support\Facades\Auth;
 class HomePageController extends Controller
 {
     
-   public function index()
+public function index()
 {
-    
-    $now = Carbon::now(); 
+    $now = Carbon::now();
 
-    return view('home', compact('now'));
+    $favoriteCities = collect(); 
+
+    if (Auth::check()) {
+        $favoriteCities = Auth::user()
+            ->cityFavorites()
+            ->with(['city.todaysForecast'])
+            ->get()
+            ->pluck('city');
+    }
+
+    return view('home', compact('now', 'favoriteCities'));
 }
+
 
     
     public function search(Request $request)
@@ -35,4 +45,5 @@ class HomePageController extends Controller
 
         return view('search_results', compact('cities', 'cityName', 'userFavorites'));
     }
+
 }

@@ -17,44 +17,47 @@
         {{ session('error') }}
         </div>
     @endif
-@foreach ($cities as $city)
-    <h4 class="mt-4">{{ $city->name }}</h4>
+<div class="row justify-content-center g-4">
 
-    @if ($city->todaysForecast)
+<div class="d-flex flex-wrap gap-3">
+    @foreach ($cities as $city)
         <a href="{{ route('user-cities.favorite', ['city' => $city->id]) }}"
            class="text-decoration-none text-reset">
 
-            <div class="card p-3 position-relative shadow-sm" style="width:300px;">
-                
+            <div class="card p-3 shadow-sm position-relative"
+                 style="width:300px;">
+
                 {{-- ❤️ Favorite --}}
                 <span class="position-absolute top-0 end-0 p-2">
                     @if (in_array($city->id, $userFavorites))
-                        <i class="fa-regular fa-heart text-danger"></i>
+                        <i class="fa-solid fa-heart text-danger"></i>
                     @else
                         <i class="fa-regular fa-heart"></i>
                     @endif
                 </span>
 
-                <p class="mb-2">
-                    <i class="fa-solid fa-temperature-half"></i>
-                    Heute —
-                    <strong>{{ $city->todaysForecast->temperature }}°C</strong>
-                </p>
+                <h5 class="mb-2">{{ $city->name }}</h5>
 
-                <small>
-                    <i class="{{ \App\Http\ForecastHelper::weatherIcon($city->todaysForecast->weather_type) }}"></i>
-                    {{ ucfirst($city->todaysForecast->weather_type) }}
-                    @if($city->todaysForecast->probability !== null)
-                        · {{ $city->todaysForecast->probability }}%
-                    @endif
-                </small>
+                @if ($city->todaysForecast)
+                    <p class="mb-1">
+                        <i class="fa-solid fa-temperature-half"></i>
+                        Heute —
+                        <strong>{{ $city->todaysForecast->temperature }}°C</strong>
+                    </p>
+
+                    <small>
+                        <i class="{{ \App\Http\ForecastHelper::weatherIcon($city->todaysForecast->weather_type) }}"></i>
+                        {{ ucfirst($city->todaysForecast->weather_type) }}
+                    </small>
+                @endif
             </div>
         </a>
+    @endforeach
+</div>
 
-    @else
-        <p class="text-muted">Keine Wetterdaten für heute.</p>
-    @endif
-@endforeach
+
+</div>
+
 
 
 
