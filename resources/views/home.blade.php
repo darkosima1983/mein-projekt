@@ -65,6 +65,9 @@
                 </p>
             </div>
         @endforelse
+        {{ $now->format('d.m.Y') }}
+        {{ $now->format('H:i:s') }}
+
     </div>
 @endif
 
