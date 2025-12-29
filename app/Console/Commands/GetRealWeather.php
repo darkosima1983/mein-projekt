@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use Illuminate\Support\Facades\Http;
 class GetRealWeather extends Command
 {
     /**
@@ -25,6 +25,22 @@ class GetRealWeather extends Command
      */
     public function handle()
     {
-        echo time();
+        $response = Http::get(env('WEATHER_API_URL'), [
+            'key' => env('WEATHER_API_KEY'),  // obavezno
+            'q' => 'Bamberg',                 // ime grada
+            'aqi' => 'no',                     // opcionalno, kvalitet vazduha
+        ]);
+
+        $data = $response->json();
+
+        $this->info("Weather in {$data['location']['name']}, {$data['location']['country']}:");
+        $this->info("Temperature: " . $data['current']['temp_c'] . "°C");
+        $this->info("Feels like: " . $data['current']['feelslike_c'] . "°C");
+        $this->info("Condition: " . $data['current']['condition']['text']);
+        $this->info("Wind: " . $data['current']['wind_kph'] . " kph");
+        $this->info("Humidity: " . $data['current']['humidity'] . "%");
+        $this->info("Cloud cover: " . $data['current']['cloud'] . "%");
+
+
     }
 }
