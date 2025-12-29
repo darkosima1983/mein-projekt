@@ -31,6 +31,8 @@ Route::get("/forecast/{city:name}", [ForecastController::class, 'index']);
 
 /**User City Routes */
 Route::get('/user-cities/favorite/{city}', [UserCitiesController::class, 'favorite'])->name('user-cities.favorite');
+Route::get('/user-cities/unfavorite/{city}', [UserCitiesController::class, 'unfavorite'])->name('user-cities.unfavorite');
+
 
 Route::middleware(['auth', AdminCheckMiddleware::class])
     ->prefix('admin')

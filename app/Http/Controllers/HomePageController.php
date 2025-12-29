@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CitiesModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UserCities;
 class HomePageController extends Controller
 {
     
@@ -13,17 +14,15 @@ public function index()
 {
     $now = Carbon::now();
 
-    $favoriteCities = collect(); 
+    $userFavorites = collect(); // uvek kolekcija
 
     if (Auth::check()) {
-        $favoriteCities = Auth::user()
-            ->cityFavorites()
-            ->with(['city.todaysForecast'])
-            ->get()
-            ->pluck('city');
+        $userFavorites = UserCities::with('city.todaysForecast')
+            ->where('user_id', Auth::id())
+            ->get();
     }
 
-    return view('home', compact('now', 'favoriteCities'));
+    return view('home', compact('now', 'userFavorites'));
 }
 
 

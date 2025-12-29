@@ -33,22 +33,22 @@
     </h2>
 
     <div class="row justify-content-center mt-4">
-        @forelse ($favoriteCities as $city)
+        @forelse ($userFavorites as $userFavorite)
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card p-3 shadow-sm h-100">
 
-                    <h5 class="text-center mb-2">{{ $city->name }}</h5>
+                    <h5 class="text-center mb-2">{{ $userFavorite->city->name }}</h5>
 
-                    @if ($city->todaysForecast)
+                    @if ($userFavorite->city->todaysForecast)
                         <p class="mb-2 text-center">
                             <i class="fa-solid fa-temperature-half"></i>
                             Heute —
-                            <strong>{{ $city->todaysForecast->temperature }}°C</strong>
+                            <strong>{{ $userFavorite->city->todaysForecast->temperature }}°C</strong>
                         </p>
 
                         <small class="text-center d-block">
-                            <i class="{{ \App\Http\ForecastHelper::weatherIcon($city->todaysForecast->weather_type) }}"></i>
-                            {{ ucfirst($city->todaysForecast->weather_type) }}
+                            <i class="{{ \App\Http\ForecastHelper::weatherIcon($userFavorite->city->todaysForecast->weather_type) }}"></i>
+                            {{ ucfirst($userFavorite->city->todaysForecast->weather_type) }}
                         </small>
                     @else
                         <p class="text-muted text-center mb-0">

@@ -21,39 +21,53 @@
 
 <div class="d-flex flex-wrap gap-3">
     @foreach ($cities as $city)
-        <a href="{{ route('user-cities.favorite', ['city' => $city->id]) }}"
-           class="text-decoration-none text-reset">
 
-            <div class="card p-3 shadow-sm position-relative"
-                 style="width:300px;">
+        <div class="card p-3 shadow-sm position-relative" style="width:300px;">
 
-                {{-- ❤️ Favorite --}}
-                <span class="position-absolute top-0 end-0 p-2">
+            {{-- ❤️ Favorite --}}
+            <span class="position-absolute top-0 end-0 p-2">
+                @auth
                     @if (in_array($city->id, $userFavorites))
-                        <i class="fa-solid fa-heart text-danger"></i>
+                        {{-- UNFAVORITE --}}
+                        <a href="{{ route('user-cities.unfavorite', ['city' => $city->id]) }}"
+                           title="Aus Favoriten entfernen">
+                            <i class="fa-solid fa-heart text-danger"></i>
+                        </a>
                     @else
-                        <i class="fa-regular fa-heart"></i>
+                        {{-- FAVORITE --}}
+                        <a href="{{ route('user-cities.favorite', ['city' => $city->id]) }}"
+                           title="Zu Favoriten hinzufügen">
+                            <i class="fa-regular fa-heart"></i>
+                        </a>
                     @endif
-                </span>
+                @else
+                    {{-- NOT LOGGED IN --}}
+                    <a href="{{ route('login') }}" title="Bitte einloggen">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                @endauth
+            </span>
 
-                <h5 class="mb-2">{{ $city->name }}</h5>
+            <h5 class="mb-2">{{ $city->name }}</h5>
 
-                @if ($city->todaysForecast)
-                    <p class="mb-1">
-                        <i class="fa-solid fa-temperature-half"></i>
-                        Heute —
-                        <strong>{{ $city->todaysForecast->temperature }}°C</strong>
-                    </p>
+            @if ($city->todaysForecast)
+                <p class="mb-1">
+                    <i class="fa-solid fa-temperature-half"></i>
+                    Heute —
+                    <strong>{{ $city->todaysForecast->temperature }}°C</strong>
+                </p>
 
-                    <small>
-                        <i class="{{ \App\Http\ForecastHelper::weatherIcon($city->todaysForecast->weather_type) }}"></i>
-                        {{ ucfirst($city->todaysForecast->weather_type) }}
-                    </small>
-                @endif
-            </div>
-        </a>
+                <small>
+                    <i class="{{ \App\Http\ForecastHelper::weatherIcon($city->todaysForecast->weather_type) }}"></i>
+                    {{ ucfirst($city->todaysForecast->weather_type) }}
+                </small>
+            @endif
+
+        </div>
+
     @endforeach
 </div>
+
 
 
 </div>
