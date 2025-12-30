@@ -10,22 +10,26 @@
 <p class="text-muted text-center">
     Hier siehst du die aktuellen Temperaturen.
 </p>
-@if(Illuminate\Support\Facades\Session::has('error'))
-    <div class="alert alert-success">
-        <i class="fa-solid fa-check"></i> {{ Illuminate\Support\Facades\Session::get('error') }}
-    </div>
-@endif
 {{-- Suchformular --}}
 <form action="{{ route('search') }}" method="GET" class="mb-4 d-flex justify-content-center">
     <input type="text" name="city" class="form-control w-50 me-2" placeholder="Stadt eingeben...">
     <button type="submit" class="btn btn-primary">Suchen</button>
 </form>
 {{-- Favoriten  --}}
-   @if(session('error'))
-       <div class="alert alert-danger">
+ @if(session('success'))
+    <div class="alert alert-success">
+        <i class="fa-solid fa-check"></i>
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        <i class="fa-solid fa-triangle-exclamation"></i>
         {{ session('error') }}
-        </div>
-    @endif
+    </div>
+@endif
+
 {{-- FAVORITI --}}
 @if(Auth::check())
     <h2 class="mt-5 text-center">

@@ -12,6 +12,11 @@
 
 
 {{-- Suchergebnisse --}}
+    @if(session('success'))
+        <div class="alert alert-success text-center">
+            {{ session('success') }}
+        </div>
+    @endif
    @if(session('error'))
        <div class="alert alert-danger">
         {{ session('error') }}
@@ -35,7 +40,7 @@
                         </a>
                     @else
                         {{-- FAVORITE --}}
-                        <a href="{{ route('user-cities.favorite', ['city' => $city->id]) }}"
+                        <a href="{{ route('user-cities.favorite', $city) }}"
                            title="Zu Favoriten hinzufügen">
                             <i class="fa-regular fa-heart"></i>
                         </a>
