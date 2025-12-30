@@ -48,35 +48,31 @@ class WeatherController extends Controller
         $cities = CitiesModel::all();
         return view('admin.edit-city', compact('singleWeather', 'cities'));
     }
-    public function update(Request $request, $weather)
-    {
-        $singleWeather = Weather::with('city')->find($weather);
-        if (!$singleWeather){
-            abort(404, "Diese Stadt existiert nicht.");
+    public function update(Request $request, Weather $weather)
+        {
+            $request->validate([
+                'city_id' => 'required|exists:cities,id',
+                'temperature' => 'required|string|min:1',
+                'description' => 'nullable|string',
+            ]);
 
+            $weather->update($request->only([
+                'city_id',
+                'temperature',
+                'description'
+            ]));
+
+            return redirect()->route('all-cities');
         }
-        $request->validate([
-            'city_id'=> "required|exists:cities,id",
-            'temperature'=> "required|string|min:1",
-            'description'=> "nullable|string",
-         ]);
-        
-         $singleWeather ->update([
-           "city_id"=> $request->city_id,
-           "temperature"=> $request->get("temperature"),
-           "description"=> $request->get("description"),
-        ]);
 
-        return redirect()->route('all-cities');
-    }
     public function destroy($weather)
-    {
-        $singleWeather = Weather::with('city')->find($weather);
-        if (!$singleWeather){
-            abort(404, "Diese Stadt existiert nicht.");
+        {
+            $singleWeather = Weather::with('city')->find($weather);
+            if (!$singleWeather){
+                abort(404, "Diese Stadt existiert nicht.");
 
+            }
+            $singleWeather->delete();
+            return redirect()->back();
         }
-        $singleWeather->delete();
-        return redirect()->back();
-    }
 }

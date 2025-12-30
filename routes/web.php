@@ -29,9 +29,7 @@ Route::get('/search', [HomePageController::class, 'search'])->name('search');
 
 Route::get("/forecast/{city:name}", [ForecastController::class, 'index']);
 
-/**User City Routes */
-Route::get('/user-cities/favorite/{city}', [UserCitiesController::class, 'favorite'])->name('user-cities.favorite');
-Route::get('/user-cities/unfavorite/{city}', [UserCitiesController::class, 'unfavorite'])->name('user-cities.unfavorite');
+
 
 
 Route::middleware(['auth', AdminCheckMiddleware::class])
@@ -50,6 +48,9 @@ Route::delete('/delete-city/{weather}', [WeatherController::class, 'destroy'])->
 
 Route::get('/forecast', [ForecastController::class, 'show'])->name('forecast');
 Route::post('/forecast/store', [ForecastController::class, 'store'])->name('forecast.store');
+
+Route::get('/user-cities/favorite/{city}', [UserCitiesController::class, 'favorite'])->name('user-cities.favorite');
+Route::get('/user-cities/unfavorite/{city}', [UserCitiesController::class, 'unfavorite'])->name('user-cities.unfavorite');
 
 
 });
