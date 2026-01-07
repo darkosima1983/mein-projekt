@@ -39,7 +39,7 @@ class GetRealWeather extends Command
             'q'    => $this->argument('city'),
             'days' => 5,
             'aqi'  => 'no',
-            'lang' => 'de',
+            'lang' => 'de',z
         ]);
 
         $data = $response->json();

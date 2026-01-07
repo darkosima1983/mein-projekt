@@ -7,6 +7,7 @@ use App\Models\CitiesModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserCities;
+use App\Services\WeatherService;
 class HomePageController extends Controller
 {
     
@@ -14,7 +15,7 @@ public function index()
 {
     $now = Carbon::now();
 
-    $userFavorites = collect(); // uvek kolekcija
+    $userFavorites = collect();
 
     if (Auth::check()) {
         $userFavorites = UserCities::with('city.todaysForecast')
@@ -27,9 +28,18 @@ public function index()
 
 
     
-    public function search(Request $request)
+    public function search(Request $request,  WeatherService $weatherService)
     {
         $cityName = $request->get('city');
+
+         
+
+       try {
+            $city = $weatherService->ensureForecast($request->get('city'));
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
         $cities = CitiesModel::with('todaysForecast')->where('name', 'LIKE', "%$cityName%")->get();
 
         if (count($cities) === 0) {
