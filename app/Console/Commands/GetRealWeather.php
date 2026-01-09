@@ -43,7 +43,7 @@ class GetRealWeather extends Command
         $response = Http::get(env('WEATHER_API_FORCEAST_URL'), [
             'key'  => env('WEATHER_API_KEY'),
             'q'    => $city,
-            'days' => 5,
+            'days' => 1,
             'aqi'  => 'no',
             'lang' => 'de',
         ]);
@@ -61,11 +61,12 @@ class GetRealWeather extends Command
         }
        $data['forecast']['forecastday'][0]['day'];
 
-        $forecastDate = $data['forecast']['forecastday'][0]['date'];
-        $temperature = $data['forecast']['forecastday'][0]['day']['avgtemp_c'];
-        $weatherType = $data['forecast']['forecastday'][0]['day']['condition']['text'];
-        $probability = $data['forecast']['forecastday'][0]['day']['daily_chance_of_rain'];
-        
+       $forecastDay = $data['forecast']['forecastday'][0];
+        $forecastDate = $forecastDay['date'];
+        $temperature = $forecastDay['day']['avgtemp_c'];
+        $weatherType = $forecastDay['day']['condition']['text'];
+        $probability = $forecastDay['day']['daily_chance_of_rain'];
+
         $forecast = ["city_id"=>$dbCity->id,
                     "forecast_date"=> $forecastDate,
                     "temperature"=>$temperature,

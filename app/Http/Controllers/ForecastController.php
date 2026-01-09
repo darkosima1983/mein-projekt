@@ -5,12 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CitiesModel;
 use App\Models\ForecastsModel ;
+use Illuminate\Support\Facades\Http;
 class ForecastController extends Controller
 {
     public function index(CitiesModel $city)
     {
-        
-        return view('forecasts', compact('city'));
+          $response = Http::get(env('WEATHER_API_ASTRONOMY_URL'), [
+            'key'  => env('WEATHER_API_KEY'),
+            'q'    => $city->name,
+            'aqi'  => 'no',
+            
+        ]);
+        $astronomyData = $response->json();
+        $sunrise = $astronomyData['astronomy']['astro']['sunrise'] ?? 'N/A';
+        $sunset = $astronomyData['astronomy']['astro']['sunset'] ?? 'N/A';
+        return view('forecast_show', compact('city', 'sunrise', 'sunset'));
     }
     public function show()
 

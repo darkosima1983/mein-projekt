@@ -27,7 +27,11 @@ Route::get('/theme/{mode}', function ($mode) {
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 Route::get('/search', [HomePageController::class, 'search'])->name('search');
 
-Route::get("/forecast/{city:name}", [ForecastController::class, 'index']);
+Route::get(
+    '/forecast_show/{city:name}',
+    [ForecastController::class, 'index']
+)->name('forecast_show');
+
 
 
 

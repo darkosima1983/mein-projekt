@@ -52,9 +52,11 @@
                     </a>
                 @endauth
             </span>
+            <a href="{{ route('forecast_show', $city) }}">
+
 
             <h5 class="mb-2">{{ $city->name }}</h5>
-
+            </a>
             @if ($city->todaysForecast)
                 <p class="mb-1">
                     <i class="fa-solid fa-temperature-half"></i>
@@ -67,7 +69,7 @@
                     {{ ucfirst($city->todaysForecast->weather_type) }}
                 </small>
             @endif
-
+            
         </div>
 
     @endforeach
