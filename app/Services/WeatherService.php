@@ -1,5 +1,5 @@
 <?php
-
+/*
 namespace App\Services;
 
 use App\Models\CitiesModel;
@@ -65,4 +65,4 @@ class WeatherService
 
         return $city;
     }
-}
+}*/

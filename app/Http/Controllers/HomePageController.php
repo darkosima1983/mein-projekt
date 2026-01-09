@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserCities;
 use App\Services\WeatherService;
+use Illuminate\Support\Facades\Artisan;
 class HomePageController extends Controller
 {
     
@@ -28,17 +29,15 @@ public function index()
 
 
     
-    public function search(Request $request,  WeatherService $weatherService)
+    public function search(Request $request)
     {
         $cityName = $request->get('city');
 
-         
-
-       try {
-            $city = $weatherService->ensureForecast($request->get('city'));
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
+         // ovde bukvalno pozivamo weather:get-real $cityName
+        Artisan::call("weather:get-real", [
+            'city' => $cityName
+        ]);
+      
 
         $cities = CitiesModel::with('todaysForecast')->where('name', 'LIKE', "%$cityName%")->get();
 
