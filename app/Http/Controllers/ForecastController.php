@@ -6,17 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\CitiesModel;
 use App\Models\ForecastsModel ;
 use Illuminate\Support\Facades\Http;
+use App\Services\WeatherService;
 class ForecastController extends Controller
 {
     public function index(CitiesModel $city)
     {
-          $response = Http::get(env('WEATHER_API_ASTRONOMY_URL'), [
-            'key'  => env('WEATHER_API_KEY'),
-            'q'    => $city->name,
-            'aqi'  => 'no',
-            
-        ]);
-        $astronomyData = $response->json();
+        $weatherService = new WeatherService();
+        $astronomyData = $weatherService->getAstronomy($city->name);
         $sunrise = $astronomyData['astronomy']['astro']['sunrise'] ?? 'N/A';
         $sunset = $astronomyData['astronomy']['astro']['sunset'] ?? 'N/A';
         return view('forecast_show', compact('city', 'sunrise', 'sunset'));
